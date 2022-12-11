@@ -8,7 +8,7 @@ require('./db')
 const app = express();
 app.use(express.json())
 app.use(morgan('dev'));
-const PORT = 8080 | process.env.PORT
+const PORT = 5000 | process.env.PORT
 
 
 const userRouter = require('./routes/user')
@@ -19,5 +19,5 @@ app.use('/api/user', userRouter);
 app.use(errorHandler);
 
 app.listen(PORT,()=>{
-    console.log(`🚀 Server is running at https://localhost:${PORT}`);
+    console.log(`🚀 Server is running at http://localhost:${PORT}`);
 })

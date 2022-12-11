@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -29,20 +30,56 @@ const theme = createTheme();
 
 const Register = () => {
 
+  const history = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      email: data.get('email'),
-      phoneNumber: data.get('phoneNumber'),
-      gender: data.get('gender'),
-      age: data.get('age'),
-      company: data.get('company'),
-      password: data.get('password'),
-    });
+  const [user, setUser] = React.useState({
+    name:" ",email:" ",phoneNumber:" ",gender:" ",age:" ",company:" ",password:" "
+  })
+
+  let name,value;
+
+
+  const handleInput = (event) => {
+    console.log(event);
+    name = event.target.name;
+    value = event.target.value;
+
+    setUser({...user,[name]:value});
+    
   };
+
+  const PostUserData = async(event) =>{
+    event.preventDefault();
+
+    const { name ,email ,phoneNumber ,gender ,age ,company ,password } = user;
+
+    const userData =await fetch('/api/user/create',{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            phoneNumber,
+            gender,
+            age,
+            company,
+            password
+          })
+    });
+
+    const data = await userData.json();
+    if(data.status === 422 || !data){
+      window.alert("Registration Failed");
+      console.log("Invalid Rgstration");
+    }else{
+      window.alert("Registration Success");
+      console.log("Successful Rgstration");
+
+      history("/email-verification");
+    }
+  }
 
 
 
@@ -65,7 +102,7 @@ const Register = () => {
           <Typography component="h1" variant="h5">
             Registration
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" method='POST' sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -73,8 +110,11 @@ const Register = () => {
               id="name"
               label="Name"
               name="name"
+              onChange={handleInput}
+              value={user.name}
               autoComplete="name"
               autoFocus
+              
             />
             <TextField
               margin="normal"
@@ -83,8 +123,10 @@ const Register = () => {
               id="email"
               label="Email Address"
               name="email"
+              onChange={handleInput}
               autoComplete="email"
-              autoFocus
+              value={user.email}
+              
             />
             <TextField
               margin="normal"
@@ -94,7 +136,9 @@ const Register = () => {
               label="Phone Number"
               name="phoneNumber"
               autoComplete="phoneNumber"
-              autoFocus
+              onChange={handleInput}
+              value={user.phoneNumber}
+              
             />
             <TextField
               margin="normal"
@@ -104,7 +148,9 @@ const Register = () => {
               label="Gender"
               name="gender"
               autoComplete="gender"
-              autoFocus
+              onChange={handleInput}
+              value={user.gender}
+              
             />
             <TextField
               margin="normal"
@@ -114,7 +160,9 @@ const Register = () => {
               label="Age"
               name="age"
               autoComplete="age"
-              autoFocus
+              onChange={handleInput}
+              value={user.age}
+              
             />
             <TextField
               margin="normal"
@@ -123,7 +171,9 @@ const Register = () => {
               label="Company"
               name="company"
               autoComplete="company"
-              autoFocus
+              onChange={handleInput}
+              value={user.company}
+              
             />
             <TextField
               margin="normal"
@@ -134,10 +184,14 @@ const Register = () => {
               type="password"
               id="password"
               autoComplete="create-password"
+              onChange={handleInput}
+              value={user.password}
             />
 
             <Button
               type="submit"
+              value="register"
+              onClick={PostUserData}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
