@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="#">
-    <img src="https://raw.githubusercontent.com/ZiaCodes/form4Admission/main/Screenshot%202022-12-11%20220618.png?token=GHSAT0AAAAAAB4H65OZADEZEWR5HY4GEN2SY4WCVLQ" alt="Logo" >
+    <img src="https://raw.githubusercontent.com/ZiaCodes/form4Admission/main/e-r.png?token=GHSAT0AAAAAAB4H65OZ5VJJSIXYT7A3K5NIY4WC5QA" alt="Logo" >
   </a>
   </p>
 
