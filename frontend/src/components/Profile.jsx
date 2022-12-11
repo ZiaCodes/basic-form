@@ -93,7 +93,7 @@ const Profile = () => {
       </ListItem>
 
         <div >
-        <Tooltip title="Edit form" Edit>
+        <Tooltip title="edit form" edit>
         <Button>Edit</Button>
         </Tooltip>
 

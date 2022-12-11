@@ -108,7 +108,12 @@ exports.signIn = async(req, res) =>{
     if(!matched) return sendError(res, "Email and password mismatch");
   
     const {_id, name} = user
-    const jwtToken = jwt.sign({userId: _id},process.env.JWT_SECRET_TOKEN,{expiresIn:'7d'})
+    const jwtToken = jwt.sign({userId: _id},process.env.JWT_SECRET_TOKEN,{expiresIn:'30d'})
+    console.log(jwtToken);
+    res.cookie('jwt',jwtToken,{
+      expires: new Date(Date.now() + 258920000000),
+      httpOnly: true
+    });
   
     res.json({user: {id: _id,name,email,jwtToken}})
 }

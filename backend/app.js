@@ -14,6 +14,11 @@ const PORT = 5000 | process.env.PORT
 const userRouter = require('./routes/user')
 app.use('/api/user', userRouter);
 
+app.get('/',(req,res) => {
+    res.cookie("jwtToken",'hello');
+    res.send(" Every routes Start from api/user/'router-name'");
+})
+
 
 //async error handling
 app.use(errorHandler);

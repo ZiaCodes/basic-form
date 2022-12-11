@@ -2,10 +2,10 @@ import React from 'react'
 import Payement from '../components/Payement';
 import Profile from '../components/Profile';
 
-const isPayementVerified = false;
+const isPayementVerified = 'false';
 
 const UserProfile = () =>{
-  if(isPayementVerified)
+  if(isPayementVerified==='true')
     return(
       <Payement/>
     );

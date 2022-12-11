@@ -53,7 +53,6 @@ userDetails.pre('save',async function(next) {
     next();
 })
 
-
 userDetails.methods.comparePassword = async function(password) {
     const result = await bcrypt.compare(password , this.password);
     return result;

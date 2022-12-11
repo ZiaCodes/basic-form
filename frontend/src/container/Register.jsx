@@ -77,9 +77,11 @@ const Register = () => {
       window.alert("Registration Success");
       console.log("Successful Rgstration");
 
-      history("/email-verification");
+      history("/login");
     }
   }
+
+  
 
 
 

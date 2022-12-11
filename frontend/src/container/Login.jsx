@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GrYoga } from 'react-icons/gr';
+import { useNavigate } from "react-router-dom";
 
 
 function Copyright(props) {
@@ -28,17 +29,40 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
+  const history = useNavigate();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
 
+// {
+//     "email":"Syed.nl1@gmail.com",
+//     "password":"Syed00"
+// }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const HandleSignIn = async(e) => {
+    e.preventDefault();
+    const userData =await fetch('/api/user/signIn',{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
     });
-  };
+
+    const data = await userData.json();
+    if(data.status === 401 || !data){
+      window.alert("Login Failed");
+      console.log("Invalid credientals");
+    }else{
+      window.alert("login Success");
+      console.log("Successful Login");
+
+      // history("/");
+    }
+  }
 
 
 
@@ -60,17 +84,17 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" method='POST' sx={{ mt: 1 }}>
             
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
            
             <TextField
@@ -80,14 +104,16 @@ const Login = () => {
               name="password"
               label="Password"
               type="password"
-              id="password"
-              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
             <Button
               type="submit"
+              value="signin"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={HandleSignIn}
             >
               Log In
             </Button>
